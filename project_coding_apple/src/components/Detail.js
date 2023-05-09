@@ -28,7 +28,6 @@ const Detail = ({shoes}) => {
     const  [alert,setAlert] = useState(true)
    
     useEffect(()=>{
-
        let a= setTimeout(()=>{
             setAlert(false)
         },2000)
@@ -47,10 +46,42 @@ const Detail = ({shoes}) => {
     setAnimate('')}
    }
    ,[])
-    
+   let {productId} = useParams()
+   useEffect(() => {
+  const shoe = shoes.find((obj) => obj["id"] === parseInt(productId));
+
+  if (localStorage.getItem("watched") === null) {
+    localStorage.setItem("watched", JSON.stringify([]));
+    let old_data = JSON.parse(localStorage.getItem("watched"));
+    old_data.unshift(shoe); // 수정된 부분
+
+    let new_data =  old_data.filter((item, i) => {
+        return (
+            old_data.findIndex((item2, j) => {
+            return item.id === item2.id;
+            }) === i
+        );
+        });
+
+    localStorage.setItem("watched", JSON.stringify(new_data));
+  } else {
+    let old_data = JSON.parse(localStorage.getItem("watched"));
+    console.log(JSON.stringify(shoe.title));
+    old_data.unshift(shoe); // 수정된 부분
+    let new_data =  old_data.filter((item, i) => {
+        return (
+            old_data.findIndex((item2, j) => {
+            return item.id === item2.id;
+            }) === i
+        );
+        });
+
+    localStorage.setItem("watched", JSON.stringify(new_data));
+  }
+}, []);
    
   
-    let {productId} = useParams()
+
     const shoe = shoes.find((obj) => obj['id'] === parseInt(productId));
     const [count,setCount] = useState(0)
     const [alertInput , setAlertInput] =useState(false)

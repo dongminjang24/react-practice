@@ -2,8 +2,13 @@ import React, { useEffect, useState } from 'react';
 import List from '../components/List';
 import axios from 'axios';
 import '../App.css' 
+
+
+
+
 const Main = ({shoes,setShoes}) => {
-    
+        const watchedList = JSON.parse(localStorage.getItem('watched'))
+        console.log(watchedList)
         const sortShoes =()=>{
             let copyShoes = [...shoes]
             // setShoes(copyShoes.sort())
@@ -15,7 +20,7 @@ const Main = ({shoes,setShoes}) => {
             setShoes(copyShoes)
         }
         const [cntClick,setCntClick] = useState(2)
-        const [err,setErr] = useState(false)
+        const [err,setErr] = useState(false);
         const [alert,setAlert] = useState(false)
         useEffect(()=>{
             setTimeout(()=>{
@@ -27,7 +32,20 @@ const Main = ({shoes,setShoes}) => {
          },[cntClick])
     return (
         <>
-        <div className='main-bg'></div>
+        <div>
+            <div className='main-bg' >
+                <div style={{position:'absolute',top:'30%',right:'0'}}>
+                    {watchedList.map((v)=>{
+                        return(
+                        <>
+                            <div style={{position:'relative'}}>{v.title}</div>
+                            <div style={{position:'relative'}}>{v.content}</div>
+                        </>)
+                    })}
+                  
+                </div>
+            </div>
+        </div>
         {alert ? <p className='centered'>로딩 중입니다.</p>: null}
 
         <button onClick={sortShoes}>상품 정렬</button>

@@ -18,6 +18,11 @@ import { DATA_SAMPLE } from './data/data';
 export let Context1 = React.createContext();
 
 function App() {
+  // let obj = {name:'kim'}
+  
+  // localStorage.setItem('data',JSON.stringify(obj))
+  // let item =localStorage.getItem('data')
+  // console.log(JSON.parse(item))
   let [stock, setStock] = useState([10,11,12]);
 
   let [shoes,setShoes] = useState(DATA_SAMPLE)
