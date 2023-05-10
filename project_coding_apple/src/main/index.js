@@ -8,7 +8,7 @@ import '../App.css'
 
 const Main = ({shoes,setShoes}) => {
         const watchedList = JSON.parse(localStorage.getItem('watched'))
-        console.log(watchedList)
+        // console.log(watchedList)
         const sortShoes =()=>{
             let copyShoes = [...shoes]
             // setShoes(copyShoes.sort())
@@ -35,13 +35,15 @@ const Main = ({shoes,setShoes}) => {
         <div>
             <div className='main-bg' >
                 <div style={{position:'absolute',top:'30%',right:'0'}}>
-                    {watchedList.map((v)=>{
+                    {(watchedList===null) ? null :
+                    watchedList.map((v)=>{
                         return(
                         <>
                             <div style={{position:'relative'}}>{v.title}</div>
                             <div style={{position:'relative'}}>{v.content}</div>
                         </>)
-                    })}
+                    })
+                    }
                   
                 </div>
             </div>

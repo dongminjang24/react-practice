@@ -60,3 +60,6 @@
   opacity : 1;
   transition : opacity 2s;
 }
+.ms-auto{
+  color:white
+}
