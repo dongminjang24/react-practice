@@ -52,7 +52,16 @@ result.error */
 
   return (
     <div className="App">
-    
+        <div>
+      <div>안녕하십니까 전 {age}</div>
+      <button onClick={()=>{
+
+setCount(count+1);
+if ( count < 3 ) {
+  setAge(age+1);
+}
+       
+}}>누르면한살먹기</button>     </div>
         <Navbar bg="dark" variant="dark">
         <Container>
           <Navbar.Brand href="#home">DongMin</Navbar.Brand>
