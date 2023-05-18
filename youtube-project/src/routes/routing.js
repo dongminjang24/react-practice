@@ -1,6 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
-import Layout from "../components";
-
+import Layout from "../components/Layout";
+import MainPage from "../pages/main";
+import Detail from "../pages/Detail";
+import List from "../pages/List";
 // 구조분해할당
 const router = createBrowserRouter([
     {
@@ -10,9 +12,12 @@ const router = createBrowserRouter([
     {path:'/',
     element: <MainPage></MainPage>
 },
-    {path:'/todo/:todoId',
-    element: <Todo></Todo>
-    }
+{path:'/watch',
+element: <Detail></Detail>
+},
+{path:'/results',
+element: <List></List>
+},
 ]
 }
 ])

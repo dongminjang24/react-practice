@@ -1,4 +1,4 @@
-{
+ [{
     "kind": "youtube#searchListResponse",
     "etag": "EbxRJI6M_6X-EAK8twDi3Se1ri8",
     "nextPageToken": "CBkQAA",
@@ -853,4 +853,4 @@
             }
         }
     ]
-}
+}]
