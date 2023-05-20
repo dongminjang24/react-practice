@@ -1,27 +1,16 @@
 import React from 'react';
-import { createBrowserRouter,RouterProvider } from 'react-router-dom';
-import Main from './main/main';
-import VideoDetail from './detail/VideoDetail';
-import Search from './search/Search';
-{/* <App>
-	/ 👉 <Videos>🔥
-	/videos 👉 <Videos>🔥 
-	/videos/query 👉 <Videos>🔍 
-	/videos/watch/id 👉 <VideoDetail></VideoDetail> */}
-const router = createBrowserRouter([{
-  path: '/',
-  element: <Main></Main>},
-  {path: '/videos',
-  element: <Main></Main>},
-  {path: '/videos/:query',
-  element: <Search></Search>},
-  {path: '/videos/watch/:id',
-  element: <VideoDetail></VideoDetail>},
-])
+import { Outlet } from 'react-router-dom';
+import Header from './components/header/header';
+import { QueryClientProvider,QueryClient } from '@tanstack/react-query';
+ 
 function App() {
+  const queryClient = new QueryClient()
   return (
     <React.Fragment>
-      <RouterProvider router={router}/>
+      <Header></Header>
+      <QueryClientProvider client={queryClient}>
+        <Outlet></Outlet>
+      </QueryClientProvider>
     </React.Fragment>
   );
 }
