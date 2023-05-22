@@ -1,33 +1,27 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import Main from './main/main';
-import VideoDetail from './detail/VideoDetail';
-import Search from './search/Search';
-import NotFound from './notFound/NotFound';
-{/* <App>
-	/ 👉 <Videos>🔥
-	/videos 👉 <Videos>🔥 
-	/videos/query 👉 <Videos>🔍 
-	/videos/watch/id 👉 <VideoDetail></VideoDetail> */}
-const router = createBrowserRouter([{
-path:'/',
-element: <App></App>,
-errorElement:<NotFound></NotFound>,
-children: [
-  {index:true,element:<Main></Main>},
-  {path:'/videos',element:<Main></Main>},
-  {path:'/videos/:query',element:<Search></Search>},
-  {path:'/videos/watch/:id',element:<VideoDetail></VideoDetail>}
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import VideoDetail from "./detail/VideoDetail";
+import Search from "./search/Search";
+import NotFound from "./notFound/NotFound";
 
-
-]
-},
-])
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <App></App>,
+    errorElement: <NotFound></NotFound>,
+    children: [
+      { index: true, element: <Search></Search> },
+      { path: "/videos", element: <Search></Search> },
+      { path: "/videos/:query", element: <Search></Search> },
+      { path: "/videos/watch/:id", element: <VideoDetail></VideoDetail> },
+    ],
+  },
+]);
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <RouterProvider router={router}>
