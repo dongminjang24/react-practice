@@ -73,4 +73,18 @@ export default class Youtube {
       })
       .then((res) => res.data.items);
   }
+
+  async detail(id) {
+    return id ? this.#detailVideo(id) : this.#mostPopular();
+  }
+  async #detailVideo(id) {
+    return this.apiClient
+      .detail({
+        params: {
+          part: "snippet",
+          id: id,
+        },
+      })
+      .then((res) => res.data.items);
+  }
 }
