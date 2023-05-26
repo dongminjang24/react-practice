@@ -77,6 +77,7 @@ export default class Youtube {
   async detail(id) {
     return id ? this.#detailVideo(id) : this.#mostPopular();
   }
+
   async #detailVideo(id) {
     return this.apiClient
       .detail({
@@ -86,6 +87,22 @@ export default class Youtube {
         },
       })
       .then((res) => res.data.items[0])
-      .then((res) => res.snippet);
+      .then((res) => res);
+  }
+
+  async related(id) {
+    return id ? this.#relatedVideo(id) : this.#mostPopular();
+  }
+  async #relatedVideo(id) {
+    return this.apiClient
+      .related({
+        params: {
+          part: "snippet",
+          maxResults: 25,
+          relatedToVideoId: id.id,
+          type: "video",
+        },
+      })
+      .then((res) => res.data.items);
   }
 }

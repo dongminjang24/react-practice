@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import "../index.css";
 import { useYoutubeApi } from "../context/YoutubeApiContex";
 import { useQuery } from "@tanstack/react-query";
+import Related from "./components/related";
 const VideoDetail = () => {
   const id = useParams("id");
   const { youtube } = useYoutubeApi();
@@ -10,8 +11,24 @@ const VideoDetail = () => {
     isLoading,
     error,
     data: video,
-  } = useQuery(["videos", id.id], () => youtube.detail(id.id));
-  console.log(video);
+  } = useQuery(["videos", id.id], () => youtube.detail(id.id), {
+    staleTime: 10000 * 50 * 10,
+  });
+  if (isLoading) {
+    return <div>로딩중...</div>;
+  }
+
+  if (error) {
+    return <div>An error occurred: {error.message}</div>;
+  }
+  // console.log(video);
+
+  // console.log(video);
+  const { snippet } = video;
+  // console.log(snippet.title);
+
+  //////////
+
   return (
     <>
       <div className="video-container">
@@ -25,10 +42,9 @@ const VideoDetail = () => {
           allowfullscreen
         ></iframe>
       </div>
-      <h1>{video?.title}</h1>
-      <h1>{video?.channelTitle}</h1>
-
-      {/* <p>{video?.description}</p> */}
+      <h1>{snippet.channelTitle}</h1>
+      <p>{snippet.title}</p>
+      <Related id={id}></Related>;
     </>
   );
 };
