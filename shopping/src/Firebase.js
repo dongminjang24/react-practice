@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import {
+  authService,
   getAuth,
   setPersistence,
   signInWithEmailAndPassword,
