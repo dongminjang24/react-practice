@@ -1,12 +1,13 @@
 import { initializeApp } from "firebase/app";
+import { getAuth, signOut } from "firebase/auth";
+import { getDatabase, ref, get } from "firebase/database";
 import {
-  authService,
-  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
   setPersistence,
-  signInWithEmailAndPassword,
   browserSessionPersistence,
+  onAuthStateChanged,
 } from "firebase/auth";
-
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FB_API_KEY,
   authDomain: process.env.REACT_APP_FB_AUTH_DOMAIN,
@@ -21,4 +22,60 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const apiKey = firebaseConfig.apiKey;
-export { app, auth, apiKey };
+const database = getDatabase(app);
+
+async function adminUser(user) {
+  return get(ref(database, "admins")) //
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        const admins = snapshot.val();
+        const isAdmin = admins.includes(user.uid);
+        return { ...user, isAdmin };
+      }
+      return user;
+    });
+}
+
+function handleGoogleLogin() {
+  const provider = new GoogleAuthProvider();
+  setPersistence(auth, browserSessionPersistence)
+    .then(() => {
+      // provider를 구글로 설정
+      return (
+        signInWithPopup(auth, provider)
+          // popup을 이용한 signup
+          .then((data) => {
+            console.log(data.user); // console로 들어온 데이터 표시
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+      );
+    })
+    .catch((error) => {
+      console.error("Error setting persistence:", error);
+    });
+}
+const onLogOutClick = () => {
+  signOut(auth);
+  // navigate("/");
+};
+function onUserStateChange(callback) {
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      // User is signed in
+      const updatedUser = user ? await adminUser(user) : null;
+
+      callback(updatedUser);
+    }
+  });
+}
+export {
+  app,
+  auth,
+  apiKey,
+  adminUser,
+  onLogOutClick,
+  handleGoogleLogin,
+  onUserStateChange,
+};
