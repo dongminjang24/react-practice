@@ -23,21 +23,9 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const apiKey = firebaseConfig.apiKey;
 const database = getDatabase(app);
-
-async function adminUser(user) {
-  return get(ref(database, "admins")) //
-    .then((snapshot) => {
-      if (snapshot.exists()) {
-        const admins = snapshot.val();
-        const isAdmin = admins.includes(user.uid);
-        return { ...user, isAdmin };
-      }
-      return user;
-    });
-}
+const provider = new GoogleAuthProvider();
 
 function handleGoogleLogin() {
-  const provider = new GoogleAuthProvider();
   setPersistence(auth, browserSessionPersistence)
     .then(() => {
       // provider를 구글로 설정
@@ -62,13 +50,20 @@ const onLogOutClick = () => {
 };
 function onUserStateChange(callback) {
   onAuthStateChanged(auth, async (user) => {
-    if (user) {
-      // User is signed in
-      const updatedUser = user ? await adminUser(user) : null;
-
-      callback(updatedUser);
-    }
+    const updatedUser = user ? await adminUser(user) : null;
+    callback(updatedUser);
   });
+}
+async function adminUser(user) {
+  return get(ref(database, "admins")) //
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        const admins = snapshot.val();
+        const isAdmin = admins.includes(user.uid);
+        return { ...user, isAdmin };
+      }
+      return user;
+    });
 }
 export {
   app,

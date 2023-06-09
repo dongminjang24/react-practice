@@ -1,9 +1,8 @@
 import React from "react";
 import { HiPencil } from "react-icons/hi";
 import { useAuthContext } from "../../../context/userContext";
-import { onLogOutClick, handleGoogleLogin } from "../../../Firebase";
 const Header = () => {
-  const { userData } = useAuthContext();
+  const { userData, onLogOutClick, handleGoogleLogin } = useAuthContext();
   return (
     <div className="flex justify-between border-b-2 border-gray py-2 px-5 items-center">
       <div className="flex items-center">
@@ -36,7 +35,7 @@ const Header = () => {
                 alt={userData.displayName}
               />
             </div>
-            <button onClick={onLogOutClick}>로그아웃</button>
+            <p onClick={onLogOutClick}>로그아웃</p>
           </>
         ) : (
           <p onClick={handleGoogleLogin}>로그인</p>

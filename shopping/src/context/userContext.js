@@ -1,12 +1,10 @@
 import { createContext, useContext } from "react";
-import { auth, adminUser, onUserStateChange } from "../Firebase";
 import {
-  GoogleAuthProvider,
-  signInWithPopup,
-  setPersistence,
-  browserSessionPersistence,
-  onAuthStateChanged,
-} from "firebase/auth";
+  onUserStateChange,
+  onLogOutClick,
+  handleGoogleLogin,
+} from "../Firebase";
+
 import { useState, useEffect } from "react";
 
 const AuthContext = createContext();
@@ -18,12 +16,16 @@ export function AuthContextProvider({ children }) {
 
   useEffect(() => {
     onUserStateChange((user) => {
-      console.log(user);
       setUserData(user);
     });
   }, []);
+  console.log(userData);
   return (
-    <AuthContext.Provider value={{ userData }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider
+      value={{ userData, onLogOutClick, handleGoogleLogin }}
+    >
+      {children}
+    </AuthContext.Provider>
   );
 }
 
